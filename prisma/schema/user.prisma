@@ -7,10 +7,10 @@ model User {
     status          UserStatus @default(ACTIVE)
     profilePhoto    String?
 
-    // profile         Profile
+    profile         Profile?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt   
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt   
 
     @@map("user")    
 }
