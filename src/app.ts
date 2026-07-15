@@ -26,6 +26,7 @@ app.get("/", async (req: Request, res: Response) => {
 app.use("/api/auth", authRouter);
 
 
+
 // globalError
 app.use(globalError)
 

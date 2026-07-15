@@ -1,9 +1,11 @@
-export interface auth {
+import { UserRole } from "../../../prisma/generated/prisma/enums";
+
+export interface IRegisterUser {
     name: string;
     email: string;
     password: string;
     profilePhoto?: string;
-    role: "Student" | "Developer" | "Admin";
+    role: UserRole;
     status: "ACTIVE" | "BLOCKED";
 }
 
