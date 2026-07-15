@@ -1,0 +1,10 @@
+enum UserRole {
+    Student
+    Developer
+}
+
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+}
