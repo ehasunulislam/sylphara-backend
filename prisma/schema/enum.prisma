@@ -1,10 +1,14 @@
 enum UserRole {
-    Student
-    Developer
+  Student
+  Developer
 }
-
 
 enum UserStatus {
   ACTIVE
   BLOCKED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
 }
