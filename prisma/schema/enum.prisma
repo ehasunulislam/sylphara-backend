@@ -1,6 +1,7 @@
 enum UserRole {
   Student
   Developer
+  Admin
 }
 
 enum UserStatus {
