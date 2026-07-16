@@ -74,7 +74,7 @@ const refreshToken = catchAsync(async(req: Request, res: Response, next: NextFun
       accessToken
     }
   })
-})
+});
 
 
 export const auhtController = {

@@ -8,6 +8,7 @@ model User {
     profilePhoto    String?
 
     profile         Profile?
+    converSation    Conversation[]
 
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt   
