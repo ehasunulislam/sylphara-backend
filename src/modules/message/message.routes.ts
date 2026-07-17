@@ -12,4 +12,11 @@ router.post(
   messageController.createMessage
 );
 
+// get message By Conversation Id && login user
+router.get(
+    "/:conversationId",
+    authMiddleware.auth(UserRole.Developer, UserRole.Student),
+    messageController.getMessages
+);
+
 export const messageRoutes = router;
