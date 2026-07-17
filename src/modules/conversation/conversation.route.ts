@@ -8,13 +8,24 @@ const router = Router();
 // create conversation
 router.post(
     "/create-conversation", 
-    authMiddleware.auth(UserRole.Developer, UserRole.Student),conversationController.createConversation
+    authMiddleware.auth(UserRole.Developer, UserRole.Student),
+    conversationController.createConversation
 );
 
-// get conversation
+// get conversation with login user
 router.get(
     "/all-conversations", 
-    authMiddleware.auth(UserRole.Developer, UserRole.Student),conversationController.getAllConversation
+    authMiddleware.auth(UserRole.Developer, UserRole.Student),
+    conversationController.getAllConversation
 );
+
+
+// get conversation with id && login user
+router.get(
+    "/:id", 
+    authMiddleware.auth(UserRole.Developer, UserRole.Student),
+    conversationController.getConversationById
+);
+
 
 export const conversationRouter = router;

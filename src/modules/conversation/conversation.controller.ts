@@ -21,7 +21,7 @@ const createConversation = catchAsync(async(req: Request, res: Response, next: N
 });
 
 
-// get conversation
+// get all conversation with login user
 const getAllConversation  = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.id as string;
 
@@ -37,10 +37,28 @@ const getAllConversation  = catchAsync(async(req: Request, res: Response, next: 
             getConversations
         },
     });
-})
+});
 
+
+// get conversation with id && login user
+const getConversationById  = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.id as string;
+    const userId = req.user?.id as string;
+
+    const conversationById = await conversationService.getConversationByIdFromDB(userId, id);
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Conversations retrieved with id and userId successfully",
+        data: {
+            conversationById
+        },
+    });
+})
 
 export const conversationController = {
     createConversation,
-    getAllConversation
+    getAllConversation,
+    getConversationById
 }

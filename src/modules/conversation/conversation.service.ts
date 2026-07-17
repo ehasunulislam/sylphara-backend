@@ -16,7 +16,7 @@ const createConversationIntoDB = async(payload: IConversation, userId: string) =
 }
 
 
-// get conversation
+// get all conversation with login user
 const getAllConversationFromDB = async(userId: string) => {
     const getConversation = await prisma.conversation.findMany({
         where: {
@@ -31,7 +31,20 @@ const getAllConversationFromDB = async(userId: string) => {
 }
 
 
+// get conversation with id && login user
+const getConversationByIdFromDB = async(userId: string, id: string) => {
+    const getConversationWithId = await prisma.conversation.findUnique({
+        where: {
+            userId, id
+        }
+    });
+
+    return getConversationWithId
+}
+
+
 export const conversationService = {
   createConversationIntoDB,
-  getAllConversationFromDB
+  getAllConversationFromDB,
+  getConversationByIdFromDB
 };
