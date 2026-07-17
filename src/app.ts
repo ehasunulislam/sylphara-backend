@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./modules/auth/auth.routes";
 import { globalError } from "./error/globalError/globalError";
 import { conversationRouter } from "./modules/conversation/conversation.route";
+import { adminRouter } from "./modules/admin/admin.routes";
 
 const app: Application = express();
 
@@ -26,9 +27,11 @@ app.get("/", async (req: Request, res: Response) => {
 // auth routes
 app.use("/api/auth", authRouter);
 
-
 // conversation routes
-app.use("/api/conversation", conversationRouter);
+app.use("/api/conversation", conversationRouter); 
+
+// admin routes
+app.use("/api/admin", adminRouter); 
 
 
 // globalError
