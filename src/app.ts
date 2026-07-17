@@ -6,6 +6,7 @@ import { authRouter } from "./modules/auth/auth.routes";
 import { globalError } from "./error/globalError/globalError";
 import { conversationRouter } from "./modules/conversation/conversation.route";
 import { adminRouter } from "./modules/admin/admin.routes";
+import { messageRoutes } from "./modules/message/message.routes";
 
 const app: Application = express();
 
@@ -29,6 +30,10 @@ app.use("/api/auth", authRouter);
 
 // conversation routes
 app.use("/api/conversation", conversationRouter); 
+
+
+// message routes
+app.use("/api/message", messageRoutes); 
 
 // admin routes
 app.use("/api/admin", adminRouter); 
