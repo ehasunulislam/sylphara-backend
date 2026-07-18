@@ -7,6 +7,7 @@ import { globalError } from "./error/globalError/globalError";
 import { conversationRouter } from "./modules/conversation/conversation.route";
 import { adminRouter } from "./modules/admin/admin.routes";
 import { messageRoutes } from "./modules/message/message.routes";
+import { aiRouter } from "./modules/ai/ai.route";
 
 const app: Application = express();
 
@@ -34,6 +35,11 @@ app.use("/api/conversation", conversationRouter);
 
 // message routes
 app.use("/api/message", messageRoutes); 
+
+
+// ai routes
+app.use("/api/ai", aiRouter)
+
 
 // admin routes
 app.use("/api/admin", adminRouter); 
