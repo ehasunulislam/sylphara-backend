@@ -15,4 +15,5 @@ export default {
     jwt_refresh_secret: process.env.JWT_REFRESH_SECRET!,
     jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN!,
     // OPENAI_API_KEY: process.env.OPENAI_API_KEY!
+    open_router: process.env.OPEN_ROUTER_API_KEY!
 }

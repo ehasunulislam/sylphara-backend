@@ -1,4 +1,5 @@
 import { MessageRole } from "../../../prisma/generated/prisma/enums";
+import { openRouter } from "../../lib/openRouter";
 import { prisma } from "../../lib/prisma";
 import { IChat } from "./ai.interface";
 
@@ -22,6 +23,7 @@ const createChatWithAIIntoDB = async(payload: IChat, userId: string) => {
         throw new Error("Unauthorized");
     }
 
+    // Save USER message
     const userMessage = await prisma.message.create({
         data: {
             conversationId,
@@ -30,6 +32,7 @@ const createChatWithAIIntoDB = async(payload: IChat, userId: string) => {
         }
     });
 
+    // Get all messages of this conversation
     const messages = await prisma.message.findMany({
         where: {
             conversationId
@@ -40,7 +43,31 @@ const createChatWithAIIntoDB = async(payload: IChat, userId: string) => {
     });
 
     // Temporary Mock AI Response
-    const aiResponseText = `AI Response: ${message}`;
+    // const aiResponseText = `AI Response: ${message}`;
+
+    // open router
+    const formattedMessages = messages.map((msg) => ({
+        role:
+        msg.role === MessageRole.USER
+            ? ("user" as const)
+            : ("assistant" as const),
+        content: msg.content,
+    }));
+
+    let aiResponseText = "";
+
+    try{
+        const response = await openRouter.chat.completions.create({
+            model: "deepseek/deepseek-chat-v3",
+            messages: formattedMessages
+        });
+
+        aiResponseText = response.choices[0]?.message?.content || "No response generate";
+    }
+    catch(err) {
+        console.error("OpenRouter Error:", err);
+        aiResponseText = "AI service is temporarily unavailable.";
+    }
 
     const assistantMessage = await prisma.message.create({
         data: {

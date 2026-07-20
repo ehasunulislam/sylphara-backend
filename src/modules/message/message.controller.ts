@@ -4,21 +4,21 @@ import { messageService } from "./message.service";
 import { sendResponse } from "../../utils/sendResponse";
 
 // create message 
-const createMessage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const payload = req.body;
+// const createMessage = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+//     const payload = req.body;
 
-    const messageCreated = await messageService.createMessageIntoDB(payload);
+//     const messageCreated = await messageService.createMessageIntoDB(payload);
 
-    sendResponse(res, {
-      statusCode: 201,
-      success: true,
-      message: "Message created successfully",
-      data: {
-        messageCreated
-      },
-    });
-  }
-);
+//     sendResponse(res, {
+//       statusCode: 201,
+//       success: true,
+//       message: "Message created successfully",
+//       data: {
+//         messageCreated
+//       },
+//     });
+//   }
+// );
 
 
 // get message By Conversation Id && login user
@@ -43,6 +43,6 @@ const getMessages = catchAsync(async (req: Request, res: Response, next: NextFun
 
 
 export const messageController = {
-  createMessage,
+  // createMessage,
   getMessages
 };
