@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 
 // create user
 const createUserIntoDB = async(payload: IRegisterUser) => {
-    const { name, email, password, profilePhoto, role, status } = payload;
+    const { name, email, password, profilePhoto, role } = payload;
 
     const isExistingUser = await prisma.user.findUnique({
         where: {
@@ -33,7 +33,6 @@ const createUserIntoDB = async(payload: IRegisterUser) => {
                 password: hashedPassword,
                 profilePhoto,
                 role,
-                status,
 
                 profile: {
                     create: { }
@@ -55,8 +54,33 @@ const createUserIntoDB = async(payload: IRegisterUser) => {
         })
 
         return result;
-    })
-    return user;
+    });
+
+    const jwtPayload = {
+        id: user?.id,
+        name: user?.name,
+        email: user?.email,
+        role: user?.role
+    }
+
+    const accessToken = jwtUtils.createToken(
+        jwtPayload,
+        config.jwt_access_secret,
+        config.jwt_access_expires_in as SignOptions
+    );
+
+    const refreshToken = jwtUtils.createToken(
+        jwtPayload,
+        config.jwt_refresh_secret,
+        config.jwt_refresh_expires_in as SignOptions
+    );
+
+
+    return {
+        user,
+        accessToken,
+        refreshToken
+    };
 };
 
 
@@ -74,7 +98,7 @@ const loginUserFromDB = async(payload: ILoginUser) => {
         throw new Error("you are blocked. please contact support");
     }
 
-    const isPassword = bcrypt.compare(password, user.password);
+    const isPassword = await bcrypt.compare(password, user.password);
 
     if(!isPassword) {
         throw new Error("password is incorrecy");

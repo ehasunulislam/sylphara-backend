@@ -8,14 +8,30 @@ import httpStatus from "http-status";
 const createUser = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
 
-    const createdUser = await authService.createUserIntoDB(payload);
+    const { user, accessToken, refreshToken } = await authService.createUserIntoDB(payload);
+
+    res.cookie("aToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    });
+
+    res.cookie("rToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "User registered successfully",
       data: {
-        createdUser
+        user,
+        accessToken,
+        refreshToken
       },
     })
 });
