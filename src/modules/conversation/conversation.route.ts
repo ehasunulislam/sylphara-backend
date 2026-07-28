@@ -27,5 +27,15 @@ router.get(
     conversationController.getConversationById
 );
 
+// search conversation
+router.get(
+  "/search",
+  authMiddleware.auth(
+    UserRole.Developer,
+    UserRole.Student
+  ),
+  conversationController.searchConversation
+);
+
 
 export const conversationRouter = router;

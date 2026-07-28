@@ -31,6 +31,27 @@ const getAllConversationFromDB = async(userId: string) => {
 }
 
 
+// search conversation
+const searchConversationFromDB = async(search: string, userId: string) => {
+    const conversation = await prisma.conversation.findMany({
+        where: {
+            userId,
+
+            title: {
+                contains: search,
+                mode: "insensitive"
+            }
+        },
+
+        orderBy: {
+            updatedAt: "desc"
+        }
+    });
+
+    return conversation
+}
+
+
 // get conversation with id && login user
 const getConversationByIdFromDB = async(userId: string, id: string) => {
     const getConversationWithId = await prisma.conversation.findUnique({
@@ -46,5 +67,6 @@ const getConversationByIdFromDB = async(userId: string, id: string) => {
 export const conversationService = {
   createConversationIntoDB,
   getAllConversationFromDB,
-  getConversationByIdFromDB
+  getConversationByIdFromDB,
+  searchConversationFromDB
 };

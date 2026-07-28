@@ -94,6 +94,10 @@ const loginUserFromDB = async(payload: ILoginUser) => {
         }
     });
 
+    if(!user) {
+        throw new Error("User not found");
+    }
+
     if(user.status === "BLOCKED") {
         throw new Error("you are blocked. please contact support");
     }
