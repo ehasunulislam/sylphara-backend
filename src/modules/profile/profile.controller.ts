@@ -8,9 +8,22 @@ import { sendResponse } from "../../utils/sendResponse";
 const getProfile = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.id as string;
 
-    console.log("userId :", userId)
-
     const profile = await profileService.getProfileFormDB(userId);
+
+    sendResponse(res, {
+      statusCode: 200,
+      success: true,
+      message: "Profile retrieved successfully",
+      data: profile,
+    });
+});
+
+// update profile within login user
+const updateProfile = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user?.id as string; 
+    const payload = req.body
+
+    const profile = await profileService.updatedProfileFormDB(userId, payload);
 
     sendResponse(res, {
       statusCode: 200,
@@ -22,5 +35,6 @@ const getProfile = catchAsync(async(req: Request, res: Response, next: NextFunct
 
 
 export const profileController = {
-    getProfile
+    getProfile,
+    updateProfile
 }
