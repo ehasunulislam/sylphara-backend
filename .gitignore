@@ -11,3 +11,4 @@ generated
 # router.post("/")
 
 # export const   ..Router = router;
+.vercel
