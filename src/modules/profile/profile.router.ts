@@ -5,7 +5,7 @@ import { UserRole } from "../../../prisma/generated/prisma/enums";
 
 const router = Router();
 
-// get Profile form DB
+// get Profile form DB withing login user
 router.get("/me", authMiddleware.auth(UserRole.Admin, UserRole.Student, UserRole.Developer),  profileController.getProfile);
 
 

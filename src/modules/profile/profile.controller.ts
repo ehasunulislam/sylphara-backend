@@ -3,6 +3,8 @@ import { catchAsync } from "../../utils/catchAsync";
 import { profileService } from "./profile.service";
 import { sendResponse } from "../../utils/sendResponse";
 
+
+// get Profile withing login user
 const getProfile = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
     const userId = req.user?.id as string;
 
