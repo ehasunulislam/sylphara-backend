@@ -5,6 +5,7 @@ import { aiController } from "./ai.controller";
 
 const router = Router();
 
+// create the chat
 router.post(
     "/chat",
     authMiddleware.auth(
