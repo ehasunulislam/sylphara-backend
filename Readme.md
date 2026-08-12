@@ -418,6 +418,6 @@ Specialized in building scalable web applications using modern JavaScript techno
 
 ### ⭐ If you found this project useful, consider giving it a star.
 
-Built with ❤️ using Next.js, Express, PostgreSQL, Prisma & OpenRouter.
+Built with ❤️ using Node, Express, PostgreSQL, Prisma & OpenRouter.
 
 </div>
