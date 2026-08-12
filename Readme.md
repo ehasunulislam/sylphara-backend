@@ -6,7 +6,6 @@
 
 A full-stack AI application that enables users to create conversations, interact with advanced language models through OpenRouter, manage chat history, and personalize their profiles through a modern, responsive interface.
 
-![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge\&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?style=for-the-badge\&logo=typescript)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge\&logo=postgresql)
 ![Prisma](https://img.shields.io/badge/Prisma-ORM-black?style=for-the-badge\&logo=prisma)
