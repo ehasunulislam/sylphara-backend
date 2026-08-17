@@ -161,12 +161,13 @@ const verificationUser = async(payload: IVerifiedEmail) => {
 
     const html = await ejs.renderFile(templatePath, templateData);
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
         from: config.email_sender,
         to: email,
         subject: "welcome message",
         html
     });
+
 
     /* convert the userData within the jwt token */
     const { profile, ...user } = createdUser;
