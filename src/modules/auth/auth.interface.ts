@@ -9,6 +9,11 @@ export interface IRegisterUser {
     status: "ACTIVE" | "BLOCKED";
 }
 
+export interface IVerifiedEmail {
+    email: string;
+    otp: string;
+}
+
 export interface ILoginUser  {
     email: string,
     password: string

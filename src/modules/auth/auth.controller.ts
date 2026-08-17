@@ -6,35 +6,52 @@ import httpStatus from "http-status";
 
 // create user
 const createUser = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
-    const payload = req.body;
+  const payload = req.body;
 
-    const { user, accessToken, refreshToken } = await authService.createUserIntoDB(payload);
+  await authService.createUserIntoDB(payload);
 
-    res.cookie("aToken", accessToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24,
-    });
-
-    res.cookie("rToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
-
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.CREATED,
-      message: "User registered successfully",
-      data: {
-        user,
-        accessToken,
-        refreshToken
-      },
-    })
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Verification OTP send in your email",
+    data: null,
+  });
 });
+
+
+// verification user 
+const veficationUser = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
+  const payload = req.body;
+
+  const result = await authService.verificationUser(payload);
+
+  const { accessToken, refreshToken, user } = result;
+
+  res.cookie("aToken", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    maxAge: 1000 * 60 * 60 * 24,
+  });
+
+  res.cookie("rToken", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  });
+
+  sendResponse(res, {
+		statusCode: httpStatus.CREATED,
+		success: true,
+		message: "User registered successfully",
+		data: {
+			accessToken, 
+      refreshToken, 
+      user
+		},
+	});
+})
 
 
 // Login user 
@@ -96,5 +113,6 @@ const refreshToken = catchAsync(async(req: Request, res: Response, next: NextFun
 export const auhtController = {
     createUser,
     loginUser,
-    refreshToken
+    refreshToken,
+    veficationUser
 }

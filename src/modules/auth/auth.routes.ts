@@ -7,6 +7,9 @@ const router = Router();
 // create user
 router.post("/register", auhtController.createUser);
 
+// verificaiton user
+router.post("/verified-user", auhtController.veficationUser);
+
 // Login user 
 router.post("/login", auhtController.loginUser);
 
