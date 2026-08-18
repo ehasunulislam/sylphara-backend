@@ -1,7 +1,5 @@
 import { Router } from "express";
 import { auhtController } from "./auth.controller";
-import { authMiddleware } from "../../middleware/auth.middleware";
-import { UserRole } from "../../../prisma/generated/prisma/enums";
 
 
 const router = Router();
@@ -20,6 +18,9 @@ router.post("/refresh-token", auhtController.refreshToken);
 
 // forgot password
 router.post("/forgot-password",  auhtController.forgotPassword); 
+
+// reset password
+router.post("/reset-password", auhtController.resetPassword);
 
 
 export const  authRouter = router;
