@@ -51,7 +51,7 @@ const veficationUser = catchAsync(async(req: Request, res: Response, next: NextF
       user
 		},
 	});
-})
+});
 
 
 // Login user 
@@ -110,9 +110,25 @@ const refreshToken = catchAsync(async(req: Request, res: Response, next: NextFun
 });
 
 
+// forgot password 
+const forgotPassword = catchAsync(async(req: Request, res: Response, next: NextFunction) => {
+  const payload = req.body;
+
+  await authService.forgotPassword(payload);
+
+
+  sendResponse(res, {
+		statusCode: httpStatus.CREATED,
+		success: true,
+		message: `otp send at ${payload.email}`,
+		data: null,
+	});
+});
+
 export const auhtController = {
     createUser,
     loginUser,
     refreshToken,
-    veficationUser
+    veficationUser,
+    forgotPassword
 }

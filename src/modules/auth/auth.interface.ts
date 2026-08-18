@@ -18,3 +18,9 @@ export interface ILoginUser  {
     email: string,
     password: string
 }
+
+
+export interface IForgotPasswordPayload {
+	email: string;
+}
+

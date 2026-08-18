@@ -2,7 +2,7 @@ import { JwtPayload, SignOptions } from "jsonwebtoken";
 import config from "../../config";
 import { prisma } from "../../lib/prisma"
 import { jwtUtils } from "../../utils/jwtUtils";
-import { ILoginUser, IRegisterUser, IVerifiedEmail } from "./auth.interface"
+import { IForgotPasswordPayload, ILoginUser, IRegisterUser, IVerifiedEmail } from "./auth.interface"
 import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { redisClient } from "../../lib/redis";
@@ -288,10 +288,65 @@ const refreshToken = async(refreshToken: string) => {
 }
 
 
+// forgot password 
+const forgotPassword = async(payload: IForgotPasswordPayload) => {
+    const { email } = payload;
+
+    const isUserExist = await prisma.user.findUnique({
+        where: {
+            email
+        }
+    });
+
+    if(!isUserExist) {
+        throw new Error("User not found");
+    }
+
+    if(isUserExist?.status === "BLOCKED") {
+        throw new Error("User already blocked");
+    }
+
+    if(!isUserExist?.emailVerified) {
+        throw new Error("Email is not verified");
+    }
+
+    /* generate the otp with redis */
+    const key = `forgot-password: ${email}`;
+    const otp = crypto.randomInt(100000, 1000000).toString();
+    const expirationLimit = 60 * 5;
+
+    await redisClient.set(key, otp, {
+        expiration: {
+            type: "EX",
+            value: expirationLimit
+        }
+    });
+
+    /* ejs processing */
+    const templatePath = path.join(process.cwd(), "/src/template/forgot-password.ejs");
+    const templateData = {
+        name: isUserExist.name,
+        otp,
+        expirationSecond: expirationLimit / 60
+    };
+
+    const html = await ejs.renderFile(templatePath, templateData);
+
+    /* mail sending process */
+    await transporter.sendMail({
+        from: config.email_sender,
+        to: email,
+        subject: "Forgot password",
+        html
+    });
+}
+
+
 
 export const authService = {
     createUserIntoDB,
     loginUserFromDB,
     refreshToken,
-    verificationUser
+    verificationUser,
+    forgotPassword
 }
